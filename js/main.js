@@ -10,6 +10,8 @@ const contadorProductos = document.getElementById("contadorProductos");
 const productosTotal = document.getElementById("productosTotal");
 const precioTotal = document.getElementById("precioTotal");
 
+const btnClear = document.getElementById("btnClear");
+
 // Numeración de la primera columna de la tabla
 let cont = 0;
 let costoTotal = 0;
@@ -43,8 +45,6 @@ event.preventDefault();
     alertValidacionesTexto.innerHTML=""
     alertValidaciones.style.display="none";
     txtName.style.border="";
-    totalEnProductos += Number(txtNumber.value);
-    productosTotal.innerText = totalEnProductos;
     txtNumber.style.border="";
 
     txtName.value = txtName.value.trim()
@@ -68,6 +68,10 @@ event.preventDefault();
     if(isValid){ //si pasó las validaciones
         cont++;
         let precio = getPrecio();
+
+        totalEnProductos += Number(txtNumber.value);
+        productosTotal.innerText = totalEnProductos;
+
         let row = `<tr>
                     <td>${cont}</td>
                     <td>${txtName.value}</td>
@@ -132,3 +136,30 @@ contadorProductos.innerText = cont;
 
 
 })
+
+btnClear.addEventListener("click", function (event) {
+    event.preventDefault();
+    cuerpoTabla.innerHTML = "";
+
+    cont = 0;
+    totalEnProductos = 0;
+    costoTotal = 0;
+    datos = [];
+
+    localStorage.removeItem("datos");
+    localStorage.removeItem("resumen");
+
+    contadorProductos.innerText = cont;
+    productosTotal.innerText = totalEnProductos;
+    precioTotal.innerText = "$ 0.00";
+
+    txtName.value = "";
+    txtNumber.value = "";
+
+    txtName.style.border = "";
+    txtNumber.style.border = "";
+    alertValidacionesTexto.innerHTML = "";
+    alertValidaciones.style.display = "none";
+
+    txtName.focus();
+});
